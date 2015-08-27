@@ -1,5 +1,6 @@
 ﻿using PashOS.Interpreter;
 using PashOS.Interpreter.Libraries.Std;
+using PashOS.Interpreter.Libraries.Std.io;
 using PashOS.Std;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,17 @@ namespace PashOS.Interpreter
 {
     public class Package
     {
+        public Package(string name)
+        {
+            Name = name;
+        }
+
+        public Package() { }
 
         //static
         public static List<Package> BasePackages = new List<Package>
         {
-            new std()
+            new std(), new Danlib()
         };
 
         public static Package getBasePackage(string name)
@@ -42,11 +49,17 @@ namespace PashOS.Interpreter
             {
                 if (Packages[i].Name == st[0])
                 {
-
+                    if (st.Count == 1)
+                        return Packages[i];
+                    else
+                    {
+                        st.Remove(st.First());
+                        return Packages[i].getPackageAt(st);
+                    }
                 }
             }
             return null;
-        }l
+        }
         //public
         public Library getLibrary(string lib)
         {
@@ -67,8 +80,25 @@ namespace PashOS.Interpreter
         public std ()
         {
             Name = "std";
-            Libraries.Add(new io());
-            Libraries.Add(new threading());
+            Package io = new Package("io");
+            io.Libraries.Add(new Out());
+            io.Libraries.Add(new In());
+            Packages.Add(io);
+        }
+    }
+
+    public class Danlib : Package
+    {
+        public Danlib()
+        {
+            Name = "Danlib";
+            Package Magic = new Package("Magic");
+            Package Out = new Package("Out");
+            Magic.Packages.Add(Out);
+
+            Out.Libraries.Add(new @string());
+
+            Packages.Add(Magic);
         }
     }
 }

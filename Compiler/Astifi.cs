@@ -12,7 +12,9 @@ namespace Compiler
     {
         private static List<Iast> Statments = new List<Iast>()
         {
-            new SetStmt()
+            new SetStmt(),
+            new CallStmt(),
+            new FnStmt()
         };
 
         public static  List<Iast> AstIt (ParseTreeNode src)
@@ -22,10 +24,13 @@ namespace Compiler
             {
                 foreach(var x in Statments)
                 {
-                    if(x.IsValid(i))
+                    if (i.ChildNodes.Count != 0)
                     {
-                        ret.Add(x.Parse(i));
-                        break;
+                        if (x.IsValid(i.ChildNodes[0]))
+                        {
+                            ret.Add(x.Parse(i.ChildNodes?[0]));
+                            break;
+                        }
                     }
                 }
             }

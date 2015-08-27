@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Astifi.cs" />
+    <Compile Include="AST\CallStmt.cs" />
+    <Compile Include="AST\FnStmt.cs" />
     <Compile Include="AST\Iast.cs" />
     <Compile Include="AST\SetStmt.cs" />
     <Compile Include="ErrorStack.cs" />

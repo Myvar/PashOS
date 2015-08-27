@@ -18,8 +18,8 @@ namespace Testing
             c.Compile(File.ReadAllText(args[2]));
 
             Engine en = new Engine();
-            en.Load(File.ReadAllText(args[0]), false);
-           // en.ParseHeader(File.ReadAllText(args[1]));
+            en.Load(c.PashAsm, false);
+            en.ParseHeader(File.ReadAllText(args[1]));
 
         }
     }

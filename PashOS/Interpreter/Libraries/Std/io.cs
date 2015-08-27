@@ -3,19 +3,17 @@ using System;
 
 namespace PashOS.Std
 {
-    public class io : Library
+    public class Out : Library
     {
-        
-        public io ()
+
+        public Out()
         {
-            Name = "io";
+            Name = "out";
             Functions = new Lib.Dictionary<string, Delegate>();
-            Functions.Add("printl", new Action<object>(io.printl));
-            Functions.Add("print", new Action<object>(io.print));
-            Functions.Add("printc", new Action<object, string>(io.printc));
-            Functions.Add("pause", new Action(io.pause));
-            Functions.Add("TestReturn", new Func<int>(testReturn));
-            Functions.Add("readl", new Func<string>(readl));
+            Functions.Add("println", new Action<object>(Out.printl));
+            Functions.Add("print", new Action<object>(Out.print));
+            Functions.Add("printc", new Action<object, string>(Out.printc));
+            Functions.Add("printlnc", new Action<object, string>(Out.printlnc));
         }
 
         private static void print(object s)
@@ -36,19 +34,15 @@ namespace PashOS.Std
         private static void printc(object s, string c)
         {
             Console.ForegroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), c);
-            Console.WriteLine(s);
+            Console.Write(s);
             Console.ResetColor();
         }
 
-        private static void pause()
+        private static void printlnc(object s, string c)
         {
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
-        }
-
-        private static int testReturn ()
-        {
-            return 1;
+            Console.ForegroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), c);
+            Console.WriteLine(s);
+            Console.ResetColor();
         }
     }
 }

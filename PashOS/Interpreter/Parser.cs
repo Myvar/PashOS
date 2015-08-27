@@ -31,6 +31,21 @@ namespace PashOS.Interpreter
             return index;
         }
 
+       
+        private int GetLocReverce(string src, char what)
+        { 
+            for (int i = src.Length - 1 ; i > 0; i--)
+            {
+                if (src[i] == what)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+
         public List<Iast> Parse(string src)
         {
             List<Iast> ret = new List<Iast>();
@@ -82,6 +97,10 @@ namespace PashOS.Interpreter
                     ret.Add(new MPStmt() { MethodID = int.Parse(a.Trim().TrimStart('[').TrimStart('{').TrimEnd('}').TrimEnd(']'))
                     , ParameterID = int.Parse(index.Trim().TrimStart('[').TrimStart('{').TrimEnd('}').TrimEnd(']'))
                     , Value = b});
+
+
+
+
                 }
                 if (i.StartsWith("CALL"))
                 { 

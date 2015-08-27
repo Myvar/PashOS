@@ -210,9 +210,15 @@ namespace PashOS.Interpreter
                 return null;
             }
 
-            //for debug
-            Package package = Package.getBasePackage(m.Name.Split('.')[0]);
-            string lib = m.Name.Split('.')[1].Split(':').First();
+            List<string> path = m.Name.Split(':').First().Split('.').ToList();
+            string lib = path.Last();
+            path.Remove(path.Last());
+            string BasePath = path.First();
+            path.Remove(path.First());
+            Package package;
+            if (path.Count > 0)
+                package = Package.getBasePackage(BasePath).getPackageAt(path);
+            else package = Package.getBasePackage(BasePath);
             List<object> args = new List<object>();
             for (int i = 0; i < m.Perms.Count; i++)
             {
@@ -232,7 +238,19 @@ namespace PashOS.Interpreter
             }
             else
             {
-                if(s.StartsWith("[") && s.EndsWith("]"))
+                if (s.Contains("/") || (s.Contains("*") && (!s.StartsWith("*") && !s.EndsWith("*"))) || s.Contains("-") || s.Contains("+") || s.Contains("%"))
+                {
+                    string d = s;
+                    for (int i = 0; i < Vars.Count; i++)
+                    {
+                        d = d.Replace("[" + i + "]", VarArray[i].ToString());
+                    }
+
+                    return mp.Parse(d);
+                }
+                else
+                {
+                     if(s.StartsWith("[") && s.EndsWith("]"))
                 {
                     var z = VarArray[int.Parse(s.TrimStart('[').TrimEnd(']'))];
                     if(z is Method)
@@ -241,18 +259,6 @@ namespace PashOS.Interpreter
                     }
                     return z;
                 }
-                else
-                {
-                    if (s.Contains("/") || (s.Contains("*") && (!s.StartsWith("*") && !s.EndsWith("*"))) || s.Contains("-") || s.Contains("+") || s.Contains("%") )
-                    {
-                        string d = s;
-                        for (int i = 0; i < Vars.Count; i++)
-                        {
-                            d = d.Replace("[" + i + "]", VarArray[i].ToString());
-                        }
-
-                        return mp.Parse(d);
-                    }
                     else
                     {
                         if (s.Contains("::"))
@@ -281,7 +287,15 @@ namespace PashOS.Interpreter
                                 }
                                 else
                                 {
-                                    return decimal.Parse(s);
+                                    try
+                                    {
+
+                                        return decimal.Parse(s);
+                                    }
+                                    catch (Exception ee)
+                                    {
+                                        return s;
+                                    }
 
                                 }
                             }
