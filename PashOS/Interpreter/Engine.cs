@@ -211,7 +211,7 @@ namespace PashOS.Interpreter
             }
 
             //for debug
-            Package package = Package.getPackage(m.Name.Split('.')[0]);
+            Package package = Package.getBasePackage(m.Name.Split('.')[0]);
             string lib = m.Name.Split('.')[1].Split(':').First();
             List<object> args = new List<object>();
             for (int i = 0; i < m.Perms.Count; i++)
