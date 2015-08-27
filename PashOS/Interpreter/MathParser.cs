@@ -79,7 +79,7 @@ namespace PashOS.Interpreter
                 // a new function to this variable!
                 // EACH FUNCTION MAY ONLY TAKE ONE PARAMETER, AND RETURN ONE
                 // VALUE. THESE VALUES SHOULD BE IN "int FORMAT"!
-                
+                //sqrt(551)
                 this.LocalFunctions.Add("abs", x => (int)Math.Abs((double)x[0]));
 
                 this.LocalFunctions.Add("cos", x => (int)Math.Cos((double)x[0]));

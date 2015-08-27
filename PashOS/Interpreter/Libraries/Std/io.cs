@@ -10,15 +10,27 @@ namespace PashOS.Std
         {
             Name = "io";
             Functions = new Lib.Dictionary<string, Delegate>();
+            Functions.Add("printl", new Action<object>(io.printl));
             Functions.Add("print", new Action<object>(io.print));
             Functions.Add("printc", new Action<object, string>(io.printc));
             Functions.Add("pause", new Action(io.pause));
             Functions.Add("TestReturn", new Func<int>(testReturn));
+            Functions.Add("readl", new Func<string>(readl));
         }
 
         private static void print(object s)
         {
+            Console.Write(s);
+        }
+
+        private static void printl(object s)
+        {
             Console.WriteLine(s);
+        }
+
+        private static string readl()
+        {
+            return Console.ReadLine();
         }
 
         private static void printc(object s, string c)

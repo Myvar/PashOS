@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Interpreter\AST\CallStmt.cs" />
     <Compile Include="Interpreter\AST\Iast.cs" />
+    <Compile Include="Interpreter\AST\LogicStmt.cs" />
     <Compile Include="Interpreter\AST\MethodStmt.cs" />
     <Compile Include="Interpreter\AST\MPStmt.cs" />
     <Compile Include="Interpreter\AST\RetStmt.cs" />

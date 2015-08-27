@@ -102,6 +102,96 @@ namespace PashOS.Interpreter
                 }
                 Call(VarArray[x.ID] as Method);
             }
+            if(i is LogicStmt)
+            {
+                var x = i as LogicStmt;
+                if(x.Opcode == "==")
+                {
+                    var s = ResolveRawValue(x.Left);
+                    var g = ResolveRawValue(x.Right);
+                    if (s is string)
+                    {
+                        if ((string)s == (string)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                    if (s is int)
+                    {
+                        if ((int)s == (int)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+
+                }
+                if (x.Opcode == "!=")
+                {
+                    var s = ResolveRawValue(x.Left);
+                    var g = ResolveRawValue(x.Right);
+                    if (s is string)
+                    {
+                        if ((string)s != (string)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                    if (s is int)
+                    {
+                        if ((int)s != (int)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                }
+                if (x.Opcode == ">")
+                {
+                    var s = ResolveRawValue(x.Left);
+                    var g = ResolveRawValue(x.Right);
+                    if (s is string)
+                    {
+                        if (s.ToString().Length > g.ToString().Length)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                    if (s is int)
+                    {
+                        if ((int)s > (int)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                }
+                if (x.Opcode == "<")
+                {
+                    var s = ResolveRawValue(x.Left);
+                    var g = ResolveRawValue(x.Right);
+                    if (s is string)
+                    {
+                        if (s.ToString().Length < g.ToString().Length)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                    if (s is int)
+                    {
+                        if ((int)s < (int)g)
+                        {
+                            ReturnStack.Add(ProgramCounter);
+                            ProgramCounter = MethodTable[(VarArray[x.ID] as Method).ID];
+                        }
+                    }
+                }
+
+            }
             if (i is RetStmt)
             {
                 
@@ -144,7 +234,12 @@ namespace PashOS.Interpreter
             {
                 if(s.StartsWith("[") && s.EndsWith("]"))
                 {
-                    return VarArray[int.Parse(s.TrimStart('[').TrimEnd(']'))];
+                    var z = VarArray[int.Parse(s.TrimStart('[').TrimEnd(']'))];
+                    if(z is Method)
+                    {
+                        return Call(z as Method);
+                    }
+                    return z;
                 }
                 else
                 {
